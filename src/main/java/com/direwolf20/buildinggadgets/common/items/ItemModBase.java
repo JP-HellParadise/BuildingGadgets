@@ -14,7 +14,7 @@ public class ItemModBase extends Item {
 
     public ItemModBase(String name) {
         setRegistryName(name);
-        setUnlocalizedName(String.join(".", BuildingGadgets.MODID, name));
+        setTranslationKey(String.join(".", BuildingGadgets.MODID, name));
         setCreativeTab(BuildingGadgets.BUILDING_CREATIVE_TAB);
     }
 

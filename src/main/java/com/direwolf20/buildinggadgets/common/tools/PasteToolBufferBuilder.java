@@ -89,7 +89,7 @@ public class PasteToolBufferBuilder {
         //System.out.printf("Sorted %d Vertexes in %.2f ms%n", bufferBuilder.getVertexCount(), (System.nanoTime() - time) * 1e-6);
         if (bufferBuilder.getVertexCount() > 0) {
             VertexFormat vertexformat = bufferBuilder.getVertexFormat();
-            int i = vertexformat.getNextOffset();
+            int i = vertexformat.getSize();
             ByteBuffer bytebuffer = bufferBuilder.getByteBuffer();
             List<VertexFormatElement> list = vertexformat.getElements();
 

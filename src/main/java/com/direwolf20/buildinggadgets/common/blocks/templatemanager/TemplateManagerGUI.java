@@ -243,7 +243,7 @@ public class TemplateManagerGUI extends GuiContainer {
 
                 if (bufferBuilder.getVertexCount() > 0) {
                     VertexFormat vertexformat = bufferBuilder.getVertexFormat();
-                    int i = vertexformat.getNextOffset();
+                    int i = vertexformat.getSize();
                     ByteBuffer bytebuffer = bufferBuilder.getByteBuffer();
                     List<VertexFormatElement> list = vertexformat.getElements();
 

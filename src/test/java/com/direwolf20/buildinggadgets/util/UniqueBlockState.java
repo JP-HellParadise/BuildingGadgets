@@ -260,7 +260,7 @@ public class UniqueBlockState implements IBlockState {
     }
 
     @Override
-    public EnumPushReaction getMobilityFlag() {
+    public EnumPushReaction getPushReaction() {
         return null;
     }
 

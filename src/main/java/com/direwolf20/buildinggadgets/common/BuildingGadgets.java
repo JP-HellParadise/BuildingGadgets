@@ -16,6 +16,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nonnull;
+
 
 @Mod(modid = BuildingGadgets.MODID, name = BuildingGadgets.MODNAME, version = BuildingGadgets.VERSION, updateJSON = BuildingGadgets.UPDATE_JSON, dependencies = BuildingGadgets.DEPENDENCIES, useMetadata = true)
 public class BuildingGadgets {
@@ -27,7 +29,8 @@ public class BuildingGadgets {
 
     public static final CreativeTabs BUILDING_CREATIVE_TAB = new CreativeTabs(new TextComponentTranslation("buildingGadgets").getUnformattedComponentText()) {
         @Override
-        public ItemStack getTabIconItem() {
+        @Nonnull
+        public ItemStack createIcon() {
             ItemStack stack = new ItemStack(ModItems.gadgetBuilding);
             stack.setTagCompound(new NBTTagCompound());
             stack.getTagCompound().setByte("creative", (byte) 0); 

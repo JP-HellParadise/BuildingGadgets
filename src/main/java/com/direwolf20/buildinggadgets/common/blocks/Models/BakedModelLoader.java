@@ -17,13 +17,13 @@ public class BakedModelLoader implements ICustomModelLoader {
 
     @Override
     public boolean accepts(ResourceLocation modelLocation) {
-        if (!modelLocation.getResourceDomain().equals(BuildingGadgets.MODID)) {
+        if (!modelLocation.getNamespace().equals(BuildingGadgets.MODID)) {
             return false;
         }
         if (modelLocation instanceof ModelResourceLocation && ((ModelResourceLocation) modelLocation).getVariant().equals("inventory")) {
             return false;
         }
-        return NAMES.contains(modelLocation.getResourcePath());
+        return NAMES.contains(modelLocation.getPath());
     }
 
     @Override

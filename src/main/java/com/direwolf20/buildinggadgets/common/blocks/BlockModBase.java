@@ -20,7 +20,7 @@ public class BlockModBase extends Block {
     public static void init(Block block, float hardness, String name) {
         block.setHardness(hardness);
         block.setCreativeTab(BuildingGadgets.BUILDING_CREATIVE_TAB);
-        block.setUnlocalizedName(String.join(".", BuildingGadgets.MODID, name));
+        block.setTranslationKey(String.join(".", BuildingGadgets.MODID, name));
         block.setRegistryName(name);
     }
 

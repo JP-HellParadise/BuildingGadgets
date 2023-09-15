@@ -49,7 +49,7 @@ public class ToolDireBuffer extends BufferBuilder {
     }
 
     private void growBuffer(int p_181670_1_) {
-        if (MathHelper.roundUp(p_181670_1_, 4) / 4 > this.rawIntBuffer.remaining() || this.vertexCount * this.vertexFormat.getNextOffset() + p_181670_1_ > this.byteBuffer.capacity()) {
+        if (MathHelper.roundUp(p_181670_1_, 4) / 4 > this.rawIntBuffer.remaining() || this.vertexCount * this.vertexFormat.getSize() + p_181670_1_ > this.byteBuffer.capacity()) {
             int i = this.byteBuffer.capacity();
             int j = i + MathHelper.roundUp(p_181670_1_, 2097152);
             LOGGER.debug("Needed to grow BufferBuilder buffer: Old size {} bytes, new size {} bytes.", Integer.valueOf(i), Integer.valueOf(j));
@@ -73,7 +73,7 @@ public class ToolDireBuffer extends BufferBuilder {
         final float[] afloat = new float[i];
 
         for (int j = 0; j < i; ++j) {
-            afloat[j] = getDistanceSq(this.rawFloatBuffer, (float) (p_181674_1_ + this.xOffset), (float) (p_181674_2_ + this.yOffset), (float) (p_181674_3_ + this.zOffset), this.vertexFormat.getIntegerSize(), j * this.vertexFormat.getNextOffset());
+            afloat[j] = getDistanceSq(this.rawFloatBuffer, (float) (p_181674_1_ + this.xOffset), (float) (p_181674_2_ + this.yOffset), (float) (p_181674_3_ + this.zOffset), this.vertexFormat.getIntegerSize(), j * this.vertexFormat.getSize());
         }
 
         Integer[] ainteger = new Integer[i];
@@ -85,7 +85,7 @@ public class ToolDireBuffer extends BufferBuilder {
         Arrays.sort(ainteger, (i0, i1) -> Floats.compare(afloat[i0.intValue()], afloat[i1.intValue()]));
         //ArrayUtils.reverse(ainteger);
         BitSet bitset = new BitSet();
-        int l = this.vertexFormat.getNextOffset();
+        int l = this.vertexFormat.getSize();
         int[] aint = new int[l];
 
         for (int i1 = bitset.nextClearBit(0); i1 < ainteger.length; i1 = bitset.nextClearBit(i1 + 1)) {
@@ -186,7 +186,7 @@ public class ToolDireBuffer extends BufferBuilder {
 
     @Override
     public BufferBuilder tex(double u, double v) {
-        int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+        int i = this.vertexCount * this.vertexFormat.getSize() + this.vertexFormat.getOffset(this.vertexFormatIndex);
 
         switch (this.vertexFormatElement.getType()) {
             case FLOAT:
@@ -215,7 +215,7 @@ public class ToolDireBuffer extends BufferBuilder {
 
     @Override
     public BufferBuilder lightmap(int p_187314_1_, int p_187314_2_) {
-        int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+        int i = this.vertexCount * this.vertexFormat.getSize() + this.vertexFormat.getOffset(this.vertexFormatIndex);
 
         switch (this.vertexFormatElement.getType()) {
             case FLOAT:
@@ -245,7 +245,7 @@ public class ToolDireBuffer extends BufferBuilder {
     @Override
     public void putBrightness4(int p_178962_1_, int p_178962_2_, int p_178962_3_, int p_178962_4_) {
         int i = (this.vertexCount - 4) * this.vertexFormat.getIntegerSize() + this.vertexFormat.getUvOffsetById(1) / 4;
-        int j = this.vertexFormat.getNextOffset() >> 2;
+        int j = this.vertexFormat.getSize() >> 2;
         this.rawIntBuffer.put(i, p_178962_1_);
         this.rawIntBuffer.put(i + j, p_178962_2_);
         this.rawIntBuffer.put(i + j * 2, p_178962_3_);
@@ -273,7 +273,7 @@ public class ToolDireBuffer extends BufferBuilder {
      */
     @Override
     public int getColorIndex(int vertexIndex) {
-        return ((this.vertexCount - vertexIndex) * this.vertexFormat.getNextOffset() + this.vertexFormat.getColorOffset()) / 4;
+        return ((this.vertexCount - vertexIndex) * this.vertexFormat.getSize() + this.vertexFormat.getColorOffset()) / 4;
     }
 
     /**
@@ -353,7 +353,7 @@ public class ToolDireBuffer extends BufferBuilder {
         if (this.noColor) {
             return this;
         }
-        int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+        int i = this.vertexCount * this.vertexFormat.getSize() + this.vertexFormat.getOffset(this.vertexFormatIndex);
 
         switch (this.vertexFormatElement.getType()) {
             case FLOAT:
@@ -398,7 +398,7 @@ public class ToolDireBuffer extends BufferBuilder {
 
     @Override
     public void addVertexData(int[] vertexData) {
-        this.growBuffer(vertexData.length * 4 + this.vertexFormat.getNextOffset());//Forge, fix MC-122110
+        this.growBuffer(vertexData.length * 4 + this.vertexFormat.getSize());//Forge, fix MC-122110
         this.rawIntBuffer.position(this.getBufferSize());
         this.rawIntBuffer.put(vertexData);
         this.vertexCount += vertexData.length / this.vertexFormat.getIntegerSize();
@@ -407,12 +407,12 @@ public class ToolDireBuffer extends BufferBuilder {
     @Override
     public void endVertex() {
         ++this.vertexCount;
-        this.growBuffer(this.vertexFormat.getNextOffset());
+        this.growBuffer(this.vertexFormat.getSize());
     }
 
     @Override
     public BufferBuilder pos(double x, double y, double z) {
-        int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+        int i = this.vertexCount * this.vertexFormat.getSize() + this.vertexFormat.getOffset(this.vertexFormatIndex);
 
         switch (this.vertexFormatElement.getType()) {
             case FLOAT:
@@ -449,7 +449,7 @@ public class ToolDireBuffer extends BufferBuilder {
         int j = (byte) ((int) (y * 127.0F)) & 255;
         int k = (byte) ((int) (z * 127.0F)) & 255;
         int l = i | j << 8 | k << 16;
-        int i1 = this.vertexFormat.getNextOffset() >> 2;
+        int i1 = this.vertexFormat.getSize() >> 2;
         int j1 = (this.vertexCount - 4) * i1 + this.vertexFormat.getNormalOffset() / 4;
         this.rawIntBuffer.put(j1, l);
         this.rawIntBuffer.put(j1 + i1, l);
@@ -469,7 +469,7 @@ public class ToolDireBuffer extends BufferBuilder {
 
     @Override
     public BufferBuilder normal(float x, float y, float z) {
-        int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
+        int i = this.vertexCount * this.vertexFormat.getSize() + this.vertexFormat.getOffset(this.vertexFormatIndex);
 
         switch (this.vertexFormatElement.getType()) {
             case FLOAT:
@@ -591,9 +591,9 @@ public class ToolDireBuffer extends BufferBuilder {
 
     @Override
     public void putBulkData(ByteBuffer buffer) {
-        growBuffer(buffer.limit() + this.vertexFormat.getNextOffset());
-        this.byteBuffer.position(this.vertexCount * this.vertexFormat.getNextOffset());
+        growBuffer(buffer.limit() + this.vertexFormat.getSize());
+        this.byteBuffer.position(this.vertexCount * this.vertexFormat.getSize());
         this.byteBuffer.put(buffer);
-        this.vertexCount += buffer.limit() / this.vertexFormat.getNextOffset();
+        this.vertexCount += buffer.limit() / this.vertexFormat.getSize();
     }
 }

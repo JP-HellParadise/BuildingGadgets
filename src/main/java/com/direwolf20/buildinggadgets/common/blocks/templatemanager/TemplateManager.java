@@ -40,7 +40,7 @@ public class TemplateManager extends Block {
     public TemplateManager() {
         super(Material.ROCK);
         setHardness(2.0f);
-        setUnlocalizedName(BuildingGadgets.MODID + ".templatemanager");
+        setTranslationKey(BuildingGadgets.MODID + ".templatemanager");
         setRegistryName("templatemanager");
         setCreativeTab(BuildingGadgets.BUILDING_CREATIVE_TAB);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
@@ -64,7 +64,7 @@ public class TemplateManager extends Block {
     @Override
     public IBlockState getStateFromMeta(int meta) {
 
-        EnumFacing enumfacing = EnumFacing.getFront(meta);
+        EnumFacing enumfacing = EnumFacing.byIndex(meta);
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
             enumfacing = EnumFacing.NORTH;
         }

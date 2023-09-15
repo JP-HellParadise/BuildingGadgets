@@ -50,9 +50,9 @@ public final class Wall implements IPlacementSequence {
     @VisibleForTesting
     private Wall(BlockPos posHit, EnumFacing side, int radius, EnumFacing extendingSide, int extendingSize) {
         this.region = new Region(posHit).expand(
-                radius * (1 - Math.abs(side.getFrontOffsetX())),
-                radius * (1 - Math.abs(side.getFrontOffsetY())),
-                radius * (1 - Math.abs(side.getFrontOffsetZ())));
+                radius * (1 - Math.abs(side.getXOffset())),
+                radius * (1 - Math.abs(side.getYOffset())),
+                radius * (1 - Math.abs(side.getZOffset())));
 
         if (extendingSize != 0) {
             if (extendingSide.getAxisDirection() == AxisDirection.POSITIVE)

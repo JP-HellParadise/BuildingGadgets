@@ -27,7 +27,7 @@ public class EffectBlock extends BlockModBase {
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
@@ -42,7 +42,7 @@ public class EffectBlock extends BlockModBase {
     }
 
     @Override
-    public EnumPushReaction getMobilityFlag(IBlockState state) {
+    public EnumPushReaction getPushReaction(IBlockState state) {
         return EnumPushReaction.BLOCK;  // Prevents block from being pushed by pistons
     }
 }
